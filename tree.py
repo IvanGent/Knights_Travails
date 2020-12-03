@@ -17,7 +17,7 @@ class Node:
         return self._parent
 
     @parent.setter
-    def parent(self, node): 
+    def parent(self, node):
         if self._parent is node:
             return
         if self._parent is not None:
@@ -37,10 +37,34 @@ class Node:
             self._children.remove(node)
             node.parent = None
 
-node1 = Node("root1")
-print(node1.parent)
-print(node1.child)
-print(node1.value)
+    def depth_search(self, value):
+        if self._value == value:
+            return self
+        if not len(self._children):
+            return None
+        for child in self._children:
+            result = child.depth_search(value)
+            if result != None:
+                return result
+        return None
+
+    def breadth_search(self, value):
+        queue = []
+        queue.append(self)
+        currNode = None
+        while queue:
+            currNode = queue.pop(0)
+            if currNode.value == value:
+                return currNode
+            for child in currNode.children:
+                queue.append(child)
+        return None
+
+
+# node1 = Node("root1")
+# print(node1.parent)
+# print(node1.child)
+# print(node1.value)
 # node2 = Node("root2")
 # node3 = Node("root3")
 # '''
@@ -52,7 +76,7 @@ print(node1.value)
 # node3, [value="root3", parent=node1, children=[]]
 # parentSetter (self=node3, value=node1)
 # '''
- 
+
 
 # node3.parent = node1
 # node3.parent = node2
